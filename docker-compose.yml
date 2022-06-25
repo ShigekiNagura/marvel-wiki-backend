@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    container_name: db
+    image: mysql:8.0
+    volumes:
+      - db-store:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: 'django'
+      MYSQL_PASSWORD: 'django'
+      MYSQL_DATABASE: 'marvel-wiki-dev'
+    ports:
+      - 3306:3306
+  web:
+    container_name: web
+    build: .
+    command: python3 src/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/code
+    ports:
+      - "8888:8000"
+    depends_on:
+      - "db"
+
+volumes:
+  db-store:

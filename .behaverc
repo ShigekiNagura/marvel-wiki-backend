@@ -1,0 +1,2 @@
+[behave]
+paths = src/marvel_wiki/tests/bdd
