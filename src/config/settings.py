@@ -25,6 +25,9 @@ SECRET_KEY = "django-insecure-r5e&49ph@#=-3x81b#dl^8)y_aca7y0c4nsm#65si&wf52i*l#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG is True:
+    CORS_ORIGIN_ALLOW_ALL = True
+
 ALLOWED_HOSTS = []
 
 
@@ -38,12 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "corsheaders",
     "behave_django",
     "marvel_wiki.apps.MarvelWikiConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -82,7 +87,7 @@ DATABASES = {
         "NAME": "marvel-wiki-dev",
         "USER": "django",
         "PASSWORD": "django",
-        "HOST": "db",
+        "HOST": "127.0.0.1",
         "PORT": 3306,
     }
 }
@@ -110,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
