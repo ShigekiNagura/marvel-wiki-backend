@@ -1,6 +1,8 @@
 from __future__ import annotations
 import typing as t
 from pydantic import BaseModel
+from marvel_wiki.models import Movie
+from loguru import logger
 
 class MovieItem(BaseModel):
     id: int
@@ -17,6 +19,15 @@ class MovieItem(BaseModel):
             "published_at": "2008-09-27"
         })
     
+    @classmethod
+    def build(cls, record: Movie) -> MovieItem:
+        return cls(**{
+            "id": record.id,
+            "title": record.title,
+            "summary": record.summary,
+            "published_at": record.published_at.strftime('%Y-%m-%d')
+        })
+    
 class getMoviesRes(BaseModel):
     data: t.List[MovieItem]
     length: int
@@ -26,6 +37,13 @@ class getMoviesRes(BaseModel):
         return cls(**{
             "data": [MovieItem.get_mock()],
             "length": 1
+        })
+    
+    @classmethod
+    def build(cls, records: t.List[Movie], length: int) -> getMoviesRes:
+        return cls(**{
+            "data": [MovieItem.build(record) for record in records],
+            "length": length
         })
 
 class getMoviesFilter(BaseModel):
@@ -53,7 +71,10 @@ class postMovieRes(BaseModel):
             "summary": "トニースタークがアイアンマンとなり、自身の会社の開発した武器を悪用する敵を倒す",
             "published_at": "2008-09-27"
         })
-
+        
+    class Config:
+        orm_mode = True
+        
 class putMovieData(BaseModel):
     id: int
     title: str
@@ -75,15 +96,6 @@ class putMovieRes(BaseModel):
             "summary": "トニースタークがアイアンマンとなり、自身の会社の開発した武器を悪用する敵を倒す",
             "published_at": "2008-09-27"
         })
-
-class deleteMovieData(BaseModel):
-    id: int
     
-class deleteMovieRes(BaseModel):
-    success: bool
-    
-    @classmethod
-    def get_mock(cls) -> deleteMovieRes:
-        return cls(**{
-            "success": True
-        })
+    class Config:
+        orm_mode = True

@@ -5,7 +5,6 @@ from marvel_wiki.domain.movie import (
     postMovieRes,
     putMovieData,
     putMovieRes,
-    deleteMovieRes
 )
 from marvel_wiki.repos.movie import movie_repos
 
@@ -19,5 +18,5 @@ class MovieUseCase:
     def update_movie(self, data: putMovieData) -> putMovieRes:
         return movie_repos.update_movie(data)
     
-    def delete_movie(self, id: int) -> deleteMovieRes:
+    def delete_movie(self, id: int):
         return movie_repos.delete_movie(id)

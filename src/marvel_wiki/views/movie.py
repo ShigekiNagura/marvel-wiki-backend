@@ -43,5 +43,7 @@ class UpdateDeleteMovieView(APIView):
         with handle_except():
             id = int(kwargs["MovieId"])
             uc = MovieUseCase()
-            ret = uc.delete_movie(id)
-            return Response(ret.dict())
+            uc.delete_movie(id)
+            return Response({
+                "success": True
+            })
