@@ -11,6 +11,9 @@ mysqlclient = "^2.1.0"
 djangorestframework = "^3.13.1"
 behave-django = "^1.4.0"
 PyHamcrest = "^2.0.3"
+pydantic = "^1.9.1"
+loguru = "^0.6.0"
+django-cors-headers = "^3.13.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

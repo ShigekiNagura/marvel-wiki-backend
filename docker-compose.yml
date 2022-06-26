@@ -15,16 +15,17 @@ services:
       MYSQL_DATABASE: 'marvel-wiki-dev'
     ports:
       - 3306:3306
-  web:
-    container_name: web
-    build: .
-    command: python3 src/manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./:/code
-    ports:
-      - "8888:8000"
-    depends_on:
-      - "db"
+  # 開発時はwebはコンテナ化しない
+  # web:
+  #   container_name: web
+  #   build: .
+  #   command: python3 src/manage.py runserver 0.0.0.0:8000
+  #   volumes:
+  #     - ./:/code
+  #   ports:
+  #     - "8888:8000"
+  #   depends_on:
+  #     - "db"
 
 volumes:
   db-store:
