@@ -1,0 +1,627 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "contact": {
+      "email": "example@example.com"
+    },
+    "description": "Marvel-WikiのAPIインタフェース定義",
+    "title": "Marvel-WikiのAPIインタフェース定義",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "movie",
+      "description": "映画作品"
+    },
+    {
+      "name": "character",
+      "description": "キャラクター"
+    }
+  ],
+  "paths": {
+    "/api/v1/movies": {
+      "get": {
+        "tags": [
+          "movie"
+        ],
+        "summary": "映画情報一覧取得",
+        "description": "映画情報一覧取得する",
+        "operationId": "getMovies",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/getMoviesResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "movie"
+        ],
+        "summary": "映画情報登録",
+        "description": "映画情報を登録する",
+        "operationId": "postMovie",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/postMoviesRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/postMoviesResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      }
+    },
+    "/api/v1/movies/{movieId}": {
+      "put": {
+        "tags": [
+          "movie"
+        ],
+        "summary": "映画情報更新",
+        "description": "映画情報を更新する",
+        "operationId": "putMovie",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/movieId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/putMovieRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/putMovieResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "movie"
+        ],
+        "summary": "映画情報削除",
+        "description": "映画情報を削除する",
+        "operationId": "deleteMovie",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/movieId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/deleteMovieResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      }
+    },
+    "/api/v1/characters": {
+      "get": {
+        "tags": [
+          "character"
+        ],
+        "summary": "キャラクター情報一覧取得",
+        "description": "キャラクター情報一覧取得する",
+        "operationId": "getCharacters",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/getCharactersResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "character"
+        ],
+        "summary": "キャラクター情報登録",
+        "description": "キャラクター情報を登録する",
+        "operationId": "postCharacter",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/postCharacterRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/postCharacterResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      }
+    },
+    "/api/v1/characters/{characterId}": {
+      "put": {
+        "tags": [
+          "character"
+        ],
+        "summary": "キャラクター情報編集",
+        "description": "キャラクター情報を編集する",
+        "operationId": "putCharacter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/characterId"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/putCharacterRequest"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/putCharacterResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "character"
+        ],
+        "summary": "キャラクター情報削除",
+        "description": "キャラクター情報を削除する",
+        "operationId": "deleteCharacter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/characterId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/deleteCharacterResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/400Response"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "getMoviesResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "映画情報",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MovieItem"
+            }
+          },
+          "length": {
+            "description": "データ件数",
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          }
+        }
+      },
+      "MovieItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "映画ID",
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "title": {
+            "description": "映画タイトル",
+            "type": "string",
+            "example": "アイアンマン"
+          },
+          "summary": {
+            "description": "要約",
+            "type": "string",
+            "example": "トニースタークがアイアンマンとなり、自身の会社の開発した武器を悪用する敵を倒す"
+          },
+          "published_at": {
+            "description": "公開日",
+            "type": "string",
+            "example": "2008-09-27"
+          }
+        }
+      },
+      "postMoviesRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "映画タイトル",
+            "type": "string",
+            "example": "アイアンマン",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "summary": {
+            "description": "要約",
+            "type": "string",
+            "example": "トニースタークがアイアンマンとなり、自身の会社の開発した武器を悪用する敵を倒す",
+            "maxLength": 1000,
+            "minLength": 0
+          },
+          "published_at": {
+            "description": "公開日",
+            "type": "string",
+            "example": "2008-09-27",
+            "maxLength": 10,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "published_at"
+        ]
+      },
+      "postMoviesResponse": {
+        "$ref": "#/components/schemas/MovieItem"
+      },
+      "putMovieRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "映画タイトル",
+            "type": "string",
+            "example": "アイアンマン",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "summary": {
+            "description": "要約",
+            "type": "string",
+            "example": "トニースタークがアイアンマンとなり、自身の会社の開発した武器を悪用する敵を倒す",
+            "maxLength": 1000,
+            "minLength": 0
+          },
+          "published_at": {
+            "description": "公開日",
+            "type": "string",
+            "example": "2008-09-27",
+            "maxLength": 10,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "title",
+          "summary",
+          "published_at"
+        ]
+      },
+      "putMovieResponse": {
+        "$ref": "#/components/schemas/MovieItem"
+      },
+      "deleteMovieResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "成功フラグ",
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "getCharactersResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CharacterItem"
+            }
+          },
+          "length": {
+            "description": "データ件数",
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          }
+        }
+      },
+      "CharacterItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "キャラクターID",
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "name": {
+            "description": "キャラクター名",
+            "type": "string",
+            "example": "アイアンマン"
+          },
+          "description": {
+            "description": "説明",
+            "type": "string",
+            "example": "トニースタークがメタルスーツを装着した姿。"
+          }
+        }
+      },
+      "postCharacterRequest": {
+        "description": "キャラクター情報登録リクエストのスキーマ",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "キャラクター名",
+            "type": "string",
+            "example": "アイアンマン"
+          },
+          "description": {
+            "description": "説明",
+            "type": "string",
+            "example": "トニースタークがメタルスーツを装着した姿。"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "postCharacterResponse": {
+        "$ref": "#/components/schemas/CharacterItem"
+      },
+      "putCharacterRequest": {
+        "description": "キャラクター情報編集リクエストのスキーマ",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "キャラクター名",
+            "type": "string",
+            "example": "アイアンマン"
+          },
+          "description": {
+            "description": "説明",
+            "type": "string",
+            "example": "トニースタークがメタルスーツを装着した姿。"
+          }
+        },
+        "required": [
+          "name",
+          "description"
+        ]
+      },
+      "putCharacterResponse": {
+        "$ref": "#/components/schemas/CharacterItem"
+      },
+      "deleteCharacterResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "成功フラグ",
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "400Response": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "description": "エラーメッセージ",
+            "type": "string",
+            "example": "リクエストパラメータが不正です。"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "postMoviesRequest": {
+        "description": "映画情報登録のリクエスト",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/postMoviesRequest"
+            }
+          }
+        }
+      },
+      "putMovieRequest": {
+        "description": "映画情報編集のリクエスト",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/putMovieRequest"
+            }
+          }
+        }
+      },
+      "postCharacterRequest": {
+        "description": "キャラクター情報登録のリクエスト",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/postCharacterRequest"
+            }
+          }
+        }
+      },
+      "putCharacterRequest": {
+        "description": "キャラクター情報編集のリクエスト",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/putCharacterRequest"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "getMoviesResponse": {
+        "description": "映画情報一覧取得のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/getMoviesResponse"
+            }
+          }
+        }
+      },
+      "postMoviesResponse": {
+        "description": "映画情報登録のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/postMoviesResponse"
+            }
+          }
+        }
+      },
+      "putMovieResponse": {
+        "description": "映画情報編集のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/putMovieResponse"
+            }
+          }
+        }
+      },
+      "deleteMovieResponse": {
+        "description": "映画情報削除のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/deleteMovieResponse"
+            }
+          }
+        }
+      },
+      "getCharactersResponse": {
+        "description": "キャラクター一覧取得のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/getCharactersResponse"
+            }
+          }
+        }
+      },
+      "postCharacterResponse": {
+        "description": "キャラクター情報登録のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/postCharacterResponse"
+            }
+          }
+        }
+      },
+      "putCharacterResponse": {
+        "description": "キャラクター情報編集のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/putCharacterResponse"
+            }
+          }
+        }
+      },
+      "deleteCharacterResponse": {
+        "description": "キャラクター情報削除のレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/deleteCharacterResponse"
+            }
+          }
+        }
+      },
+      "400Response": {
+        "description": "400エラーのレスポンス",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/400Response"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "offset": {
+        "in": "query",
+        "name": "offset",
+        "description": "データの取得開始位置",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1,
+        "required": true
+      },
+      "limit": {
+        "in": "query",
+        "name": "limit",
+        "description": "データの取得数",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1,
+        "required": true
+      },
+      "order_by": {
+        "in": "query",
+        "name": "order_by",
+        "description": "ソート項目",
+        "schema": {
+          "type": "string"
+        },
+        "example": "パワー"
+      },
+      "movieId": {
+        "in": "path",
+        "name": "movieId",
+        "description": "動画ID",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1,
+        "required": true
+      },
+      "characterId": {
+        "in": "path",
+        "name": "characterId",
+        "description": "キャラクターID",
+        "schema": {
+          "type": "integer"
+        },
+        "example": 1,
+        "required": true
+      }
+    }
+  }
+}
